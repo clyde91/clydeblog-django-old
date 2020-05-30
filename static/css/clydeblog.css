@@ -1,0 +1,32 @@
+*{margin: 0;padding: 0;}
+body{margin-top: 60px!important;}
+.dropdown-menu-center {
+  right: auto;
+  left: -50px;
+}
+
+li{list-style-type:none;}
+
+ul.blog-detail li{display: inline-block; margin-right: 2em;}
+
+
+.paginator {
+  text-align: center;
+}
+
+
+/*博客APP*/
+li.blog:not(:last-child){border-bottom: 1px solid #eee}
+
+
+
+.blog-footer {
+  padding: 2.5rem 0;
+  color: #999;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-top: .05rem solid #e5e5e5;
+}
+.blog-footer p:last-child {
+  margin-bottom: 0;
+}

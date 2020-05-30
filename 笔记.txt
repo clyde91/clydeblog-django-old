@@ -1,0 +1,335 @@
+﻿启动服务器
+python manage.py runserver
+ 
+同步数据库
+python manage.py makemigrations   制造
+python manage.py migrate  迁移
+ 
+创建超级管理员
+python manage.py createsuperuser
+ 
+创建应用 
+python manage.py startapp XXX
+ 
+注册应用（创建后需要注册才能使用）
+在根目录settings.py里面的INSTALLED_APPS添加应用名
+ 
+ 
+ 
+ 
+
+
+ 
+views   存放请求方法。即不同网页回复请求
+创建一个文章请求方法
+def article_detail(request,XXX):                     #request是必写。XXX是传入值。函数内部调用
+
+    return HttpResponse(标题是)
+ 
+views或者模板引用模型实例的属性，如文章的标题
+先获取实例，方法是objects.get
+article = Article.objects.get(id=article_id)    #article_id这个变量是自己取的。要保证其他地方一致
+然后就能article.title获得标题了
+获取所有实例，方法是objects,all()
+ 
+添加404报错
+    try:
+       article = Article.objects.get(id=article_id)
+    except Article.DoesNotExist:
+        raise Http404
+ 
+同时获得实例加添加404报错
+article = get_object_or_404(Article,id=article_id)    #模型名，根据id来检索实例
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+
+
+ 
+ 
+templates    创建模板
+新建文件夹templates。创建article_detail.html
+ 
+在settings.py注册公用模板
+'DIRS': [os.path.join(BASE_DIR, 'templates')]    #意思是BASE_DIR/templates。os模块的方法将根目录赋予给BASE_DIR
+如果是存放在某个应用的专有模板只要html文件名前缀是该应用名。如
+blog_detail.html。那么系统会先找公用模板。找不到后找。blog下的模板blog_detail.html。
+ 
+ 
+修改views（将views和templates联系起来）
+用render
+def article_detail(request,article_id):
+     article = Article.objects.get(id=article_id)    #提取文章实例
+    context = {}                               # 创建字典
+    context['article']=article              #将文章实例放入字典
+    return render(request,"article_detail.html",context)   #request，模板文件位置，字典
+
+获得文章实例的方法 
+Article.objects.get或者all或者filter。
+
+
+在模板引用  （views里面把模型实例导入字典后）
+{{article.title}} #引用标题
+ 
+在模板用循环的标签
+{% for i in articles %}    #开始
+{{i.title}}    #夹在中间的循环体。引用实例的属性。如标题等等
+{% endfor %}    #结尾
+ 
+在循环文章列表前先在views获取所有的文章实例
+
+在模板创建链接   
+<a href="{{ i.id }}">{{i.title}}</a>
+<a href="/blog/{{ i.id }}">{{i.title}}</a>
+<a href="{% url 'article_detail' i.id %}">{{i.title}}</a>   #三者等价，习惯用这种。引用的是在urls里面name=XXXX的网址。如果正则引用了参数。则
+ 
+空格后放参数。需要非常注意的是。参数是i.XX因为前面for i。i指代articles集合中的article实例。
+
+在views里面方法如果是传参数的。记得匹配进参数。而views参数的源头是模板。模板的参数源头是数据库。整个调用层次是urls-views-模板-数据库。
+
+url和views和templates关系
+每个正则url对应着views一个方法。然后views的那个方法写明了指定的模板，传入了数据库数据。最后渲染出网页来。
+
+
+{% for i in articles %}
+    <a href="{% url 'blog_article' i.id %}">{{i.title}}</a><span>{{i.author}}</span><br>    #这句里面传入了数据库里面的article.id。
+{% endfor %}
+ 
+ 
+ 
+ 
+
+
+
+
+
+ 
+
+models    存放模型 如创建一个文章模型。或者说类。
+创建一个文章模型
+class Article(models.Model):
+    title = models.CharField(max_length=30)
+    content = models.TextField()
+
+__str__方法。如果定义了。那么返回定义的信息。用于对实例的描述
+    def __str__(self):
+        return '<%s>'% self.title
+Meta
+    class Meta:
+        ordering = ['-']
+
+
+ 
+将模型注册到后台
+admin.site.register(Article)    #在admin.py里添加
+admin.site.register([Article,Tag])    #多个一起注册
+admin.site.register(Article,ArticleAdmin)    #后台注册模型以及显示格式。其中ArticleAdmin这名字是习惯的取法。并且要规定便不能多个一起注册。
+@admin.register(Article)    #装饰器模式。只要在ArticleAdmin前面加这个。等价于上面。
+
+admin 定制后台
+ 
+后台列表显示标题加内容。同时需要注册ArticleAdmin这个类
+class ArticleAdmin(admin.ModelAdmin) :
+    list_display = ("id","title","body")    #显示id标题内容
+    ordering = ("id",)    #按id正序（倒序加负号）
+    fields = （"title","body"）    #编辑模式只显示标题和内容
+    list_per_page = 5    #每页显示条目数
+    list_display_links = ("title",)    #设置带链接的字段。跟的是元组列表或者none
+ 
+ 
+ 
+
+
+
+urls    网址和请求方法对应关系（将url与views联系起来）
+path("<int:article_id>", views.article_detail, name="article_detail")    #第一个是网址的正则，第二个是对应请求方法，第三个是网址的引用名
+ 
+ 
+在总的urls引用应用的urls
+path('blog/',include('blog.urls',namespace='blog')),  #切记！namespace='blog'必不可少
+ 
+ 
+ 
+ 
+
+
+
+
+
+
+ 
+ 
+ 
+ 
+Django建网页流程
+
+创建、注册应用#settings.py
+创建管理员
+关联网址#urls.py
+
+
+创建模型并生成数据库。#models.py
+修改后台#admin.py 
+ 
+
+1.在views创建一个请求方法。用来回复请求。如文章列表页
+方法包含了1.抓取后面模板所需的实例。如文章。抓取方法见  views或者模板得以引用模型实例的属性。2.与模板html关联
+ 
+ 
+2.在templates创建模板，并且用{{}}调用实例属性
+ 
+ 
+3.在urls创建网址与请求方法对应关系
+输入网址。方法。如果是子应用写在主urls要import
+
+
+
+
+
+
+
+
+
+
+
+
+
+models的类型
+
+models.CharField(max_length=70)    #字符串
+models.TextField()    #文本框
+models.DateTimeField(auto_now_add=True)    #日期。默认值为现在，另一种default=timezone.now需要导入from django.utils import timezone。
+models.ForeignKey(Category,on_delete=models.CASCADE)    #关联的模型。删除时的处理方式
+models.ManyToManyField(Tag,blank=True)    #多对多
+models.BooleanField(default=False)    #是否。默认否。可以设置是否隐藏文章。在列表的views
+models.ImageField(upload_to='architecture/img_architect', blank=True, null=True)    #上传图片。路径
+blank=True,null = True    #表单可以为空 数据库空为null
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Django标签、过滤器
+
+{{ articles|length }}
+{{ articles.count }}
+二者等价为统计个数
+
+{% for i in articles %}    #for开始。同理还有if
+{% empty %}    #当循环输出为空时显示内容
+{% endfor %} #for结束
+{# XXXXXXXX #}     #注释
+
+模板嵌套
+{% block XXX %}{% endblock %}    #模板嵌套的位置。X为名字
+{% extends XXX %}    #模板引用。X为引用文件。模板嵌套可以将不同部分block出来。另一个模板继续嵌套这个模板，多层嵌套。
+{% include XXX %}    #内容引用。X为引用文件
+
+{{ article.body|truncatechars:50 }}    #只显示前50字符。truncatechars_html切片时候不会切到标签，如<p
+{{XXX|date:"Y-m-d G:i:s"}}    #时间格式
+
+
+
+
+
+
+
+
+django中静态文件引用设置css,javascript
+
+STATIC_URL = '/static/'
+#设置静态文件的地址
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+]
+#设置静态文件位置。访问地址就访问到文件位置。
+
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/clydeblog.css' %}">
+
+<link rel="stylesheet" href="/static/css/clydeblog.css">
+#二者等价
+
+<script type="text/javascript"  src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script type="text/javascript"  src="{% static 'js/bootstrap.js' %}"></script>
+#jquery要放在bootstrap前面
+
+
+
+
+
+
+django-ckeditor    #富文本编辑器
+
+
+
+
+
+
+
+
+
+shell
+python manage.py shell
+启动shell
+
+
+from APP.models import MODEL
+引用模型
+
+添加文章，即实例化
+Article
+a=Article()
+a.XXX=XXX
+a.save
+这里的a随便都可以，只是过渡用的变量
+
+
+分页器
+from django.core.paginator import Paginator
+articles=Article.objects.all()
+paginator = Paginator(articles,5)
+
+paginator.count
+文章数
+paginator.num_pages
+页数
+paginator.page_range
+页码范围
+paginator.page(1)
+取第一页
+paginator.page(1).number
+取当前页的页码
+paginator.page(1).object_list
+第一页的文章列表
+
+
+page_num = request.GET.get('page',1)
+
+在views里获取url里的get请求
+
+
+page.paginator.page_range
+不用专门定义一个paginator，通过.paginator就能引用分页器
+
+
+nav_page_range
