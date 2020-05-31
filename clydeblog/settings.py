@@ -26,7 +26,7 @@ SECRET_KEY = ')g1ch@o4wi9w$xow5alf1%^zee0pt7%-unw0gu8d0j)satdtkl'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['45.76.215.70', 'www.clydeblog.com', '198.13.36.225', ]
+ALLOWED_HOSTS = ['*', ]
 
 
 # Application definition
