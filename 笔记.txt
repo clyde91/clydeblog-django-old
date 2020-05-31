@@ -14,8 +14,8 @@ python manage.py startapp XXX
 注册应用（创建后需要注册才能使用）
 在根目录settings.py里面的INSTALLED_APPS添加应用名
  
- 
- 
+ 生成环境需求文件
+ pip freeze > requirements.txt
  
 
 
