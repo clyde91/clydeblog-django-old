@@ -16,7 +16,7 @@
                         <li>分类：<a href="{% url "blog_category" article.category.id %}">{{article.category.name}}</a></li>
                         <li>发表日期：{{article.created_time|date:"Y-m-d H:i:s"}}</li>
                     </ul>
-                    <div>{{article.body}}</div>
+                    <div>{{article.body|safe}}</div>
                 </div>
             </div>
             <div class="d-none d-md-block col-md-4">

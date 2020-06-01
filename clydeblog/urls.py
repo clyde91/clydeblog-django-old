@@ -25,5 +25,9 @@ urlpatterns = [
     path('architecture/', include('architecture.urls')),
     path('', views.index, name='home'),
     path('test', views.test, name='test'),
-] + static(settings.STATIC_URL,document_root = settings.STATIC_ROOT)
+    path('ckeditor', include('ckeditor_uploader.urls')),    # 添加上传功能
+]
 
+
+urlpatterns += static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

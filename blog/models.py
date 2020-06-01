@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 
@@ -21,7 +21,7 @@ class Tag(models.Model):
 
 class Article(models.Model):
     title = models.CharField(max_length=70, verbose_name="标题")
-    body = models.TextField(verbose_name="正文")
+    body = RichTextUploadingField(verbose_name="正文")
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建日期")
     modified_time = models.DateTimeField(auto_now=True, verbose_name="修改日期")
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="分类")

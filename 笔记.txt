@@ -248,8 +248,8 @@ Django标签、过滤器
 {{XXX|date:"Y-m-d G:i:s"}}    #时间格式
 
 
-
-
+{{ articles|safe }}    #html标签显示
+{{ articles|striptags }}    #去掉html标签
 
 
 
@@ -333,3 +333,44 @@ page.paginator.page_range
 
 
 nav_page_range
+
+
+
+
+
+
+
+富文本编辑区
+pip install django-ckeditor
+
+在settings的apps添加‘ckeditor’
+在models
+from ckeditor.fields import RichTextField
+把需要的模型更改类型RichTextField()
+
+
+
+添加上传图片功能
+安装pillow
+
+在settings的apps添加‘ckeditor_uploader’
+然后添加
+# 配置ckeditor
+CKEDITOR_UPLOAD_PATH = 'upload/'
+
+# media配置
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+放在全局变量前面
+
+
+在总路由添加路径
+path('ckeditor', include('ckeditor_uploader.urls')),    # 添加上传功能
+然后添加
+from django.conf.urls.static import static
+from django.conf import settings
+urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+
+在models
+from ckeditor_uploader.fields import RichTextUploadingField
+把需要的模型更改类型RichTextUploadingField()
