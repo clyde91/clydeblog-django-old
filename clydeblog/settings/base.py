@@ -153,7 +153,7 @@ CKEDITOR_UPLOAD_PATH = 'upload/'
 
 # media配置
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media').replace('\\', '/')
 
 # 全局变量
 NUM_ARTICLE_PER_PAGE = 8 #每页显示文章数
