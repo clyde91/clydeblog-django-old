@@ -137,16 +137,16 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+STATIC_URL = '/static/'    # 访问静态时寻找的url地址
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static'),
 ]
-
+# django寻找静态文件优先找的文件夹
 
 # STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
-STATIC_ROOT = os.path.join(os.path.dirname(__file__), '..', 'static').replace('\\','/')# 有问题等需要搞
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), '..', 'static_collected').replace('\\','/')    # 收集静态文件时候需要用到的地址
 
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
