@@ -1,4 +1,4 @@
 /.idea/
 */__pycache__
 /static_collected/
-/clydeblog/settings/development
+/clydeblog/settings/development.py
