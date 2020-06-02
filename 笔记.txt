@@ -374,3 +374,14 @@ urlpatterns += static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
 在models
 from ckeditor_uploader.fields import RichTextUploadingField
 把需要的模型更改类型RichTextUploadingField()
+
+切记设置完后还需要收集静态文件才能在服务端使用
+python manage.py collectstatic
+
+
+
+
+
+
+
+

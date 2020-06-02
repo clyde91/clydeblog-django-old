@@ -139,14 +139,14 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static/'),
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static/'),
+]
 
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, '/static/')
 
-# STATIC_ROOT = os.path.join(os.path.dirname(__file__), '..', 'templates/content').replace('\\','/') 有问题等需要搞
+STATIC_ROOT = os.path.join(os.path.dirname(__file__), '..', 'static').replace('\\','/')# 有问题等需要搞
 
 # 配置ckeditor
 CKEDITOR_UPLOAD_PATH = 'upload/'
