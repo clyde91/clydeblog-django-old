@@ -384,4 +384,15 @@ python manage.py collectstatic
 
 
 
+添加点击次数功能
+models：
+read_num = models.IntegerField(default=0,verbose_name="阅读次数")
 
+views：
+    if not request.COOKIES.get("article_%s_read" % id)
+        article.read_num +=1
+        article.save()
+
+    response = render(request,"article_detail.html", context)    # 响应
+    response.set_cookie("article_%s_read" % id, max_age=120,)    # 给字典赋值真
+    return response

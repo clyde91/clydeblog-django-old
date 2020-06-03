@@ -27,6 +27,8 @@ class Article(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="分类")
     tag = models.ManyToManyField(Tag,blank=True, verbose_name="标签")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者")
+    read_num = models.IntegerField(default=0,verbose_name="阅读次数")
+
 
     def __str__(self):
         return '<%s>' % self.title

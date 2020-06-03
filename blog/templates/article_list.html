@@ -13,8 +13,9 @@
                     <ul>
                     {% for i in page.object_list %}
                         <li class="blog">
-                            <a href="{% url 'blog_article' i.id %}">{{i.title}}</a><span>{{i.author}}</span>
+                            <p><a href="{% url 'blog_article' i.id %}">{{i.title}}</a></p>
                             <p>{{ i.body|striptags|truncatechars_html:50 }}...</p>
+                            <p><span>作者：{{i.author}}</span><span>阅读({{ i.read_num }})</span></p>
                         </li>
                     {% empty %}
                         <li>暂无文章</li>

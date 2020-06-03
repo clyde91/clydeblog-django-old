@@ -5,7 +5,7 @@ from .models import Article,Category,Tag
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
-    list_display = ("id", "title", "created_time", "modified_time",)
+    list_display = ("id", "title", "created_time", "modified_time","read_num",)
     list_per_page = 20
     ordering = ("id",)
     list_display_links = ("title",)
