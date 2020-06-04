@@ -391,8 +391,35 @@ read_num = models.IntegerField(default=0,verbose_name="阅读次数")
 views：
     if not request.COOKIES.get("article_%s_read" % id)
         article.read_num +=1
-        article.save()
+        article.save()     # 这里article保存一次
 
     response = render(request,"article_detail.html", context)    # 响应
     response.set_cookie("article_%s_read" % id, max_age=120,)    # 给字典赋值真
     return response
+
+这样会导致后台点一次就保存一次article就加一次。所以。把这数据迁移到其他表上。后台每次执行的是article的。所以后台并不会加
+
+models:修改添加独立的模型存次数。article引用该模型数据即可。一对一关系。注意！类名字不要和属性名字相同。不然会乱
+class Readnum(models.Model):
+    read_num = models.IntegerField(default=0, verbose_name="阅读次数")
+    article = models.OneToOneField(Article, on_delete=models.DO_NOTHING)
+
+
+通用功能放在一个app里
+ContentType
+可以在不同的app引用。想想比如导航栏
+ContentType就是起搭桥作用。如阅读数是给博客app的文章用的。那么ct就等于blog-article。代码里并不是类Article。而是要用ContentType.objects.get_for_model(Article)来获取
+其中id是要自己创的。不是阅读数自增id。即一班有个1号。二班也有个1号。不冲突的。他就相当于是把一二班的人的阅读数单独集合在一起。
+GenericForeignKey这个方法是通过ct+id获得该实例。
+
+封装通用方法
+将通用的做成类。让需要的继承。
+class ReadnumMethod():
+    def get_read_num(self):
+        ct = ContentType.objects.get_for_model(self)    # 获得ct
+        try:
+            readnum = Readnum.objects.get(content_type=ct, object_id=self.id)  # 获得该文章的阅读数。通过关联模型，id
+            return readnum.read_num
+        except Exception as e:
+            return 0
+
