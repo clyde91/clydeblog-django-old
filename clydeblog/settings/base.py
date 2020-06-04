@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'architecture',
     'ckeditor',
     'ckeditor_uploader',
+    'common_func',  # 注册通用功能app
 ]
 
 MIDDLEWARE = [

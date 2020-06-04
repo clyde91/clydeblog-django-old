@@ -1,8 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
 from ckeditor_uploader.fields import RichTextUploadingField
-
+from common_func.models import ReadnumMethod
 # Create your models here.
+
+
+
+
 
 
 class Category(models.Model):
@@ -20,7 +24,7 @@ class Tag(models.Model):
         return self.name
 
 
-class Article(models.Model):
+class Article(models.Model, ReadnumMethod):
     title = models.CharField(max_length=70, verbose_name="标题")
     body = RichTextUploadingField(verbose_name="正文")
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建日期")
@@ -28,12 +32,6 @@ class Article(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="分类")
     tag = models.ManyToManyField(Tag,blank=True, verbose_name="标签")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者")
-
-    def get_read_num(self):
-        try:
-            return self.readnum.read_num
-        except Exception as e:
-            return 0
 
     def __str__(self):
         return '<%s>' % self.title
@@ -43,10 +41,5 @@ class Article(models.Model):
         ordering = ['-created_time']
 
 
-class Readnum(models.Model):
-    read_num = models.IntegerField(default=0, verbose_name="阅读次数")
-    article = models.OneToOneField(Article, on_delete=models.DO_NOTHING)
-    # def __str__(self):
-    #     return '%s' % self.read_num
 
 

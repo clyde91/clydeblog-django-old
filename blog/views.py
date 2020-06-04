@@ -1,17 +1,20 @@
 from django.shortcuts import render,get_object_or_404
-from .models import Article, Category, Readnum
+from .models import Article, Category
 from django.core.paginator import Paginator
 from django.conf import settings
+from common_func.models import Readnum
+from django.contrib.contenttypes.fields import ContentType
 # Create your views here.
 
 
 def blog_article(request,id):
     article = get_object_or_404(Article, id=id)
     if not request.COOKIES.get("article_%s_read" % id):
-        if Readnum.objects.filter(article=article).count():    # 判断是否有数。没有为0假
-            readnum = Readnum.objects.get(article=article)
+        ct = ContentType.objects.get_for_model(Article)    #获得ct
+        if Readnum.objects.filter(content_type=ct,object_id=id).count():    # 判断是否有数。没有为0假
+            readnum = Readnum.objects.get(content_type=ct,object_id=id)
         else:
-            readnum = Readnum(article=article)    # 这里是实体。
+            readnum = Readnum(content_type=ct,object_id=id)    # 这里是实体。
         readnum.read_num += 1
         readnum.save()    # 保存的是实体不是实体内的属性。
     context = {}

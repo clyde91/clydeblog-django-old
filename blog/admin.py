@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Article,Category,Tag, Readnum
+from .models import Article, Category, Tag
 # Register your models here.
 
 
@@ -18,9 +18,5 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ("id",)
 
 
-@admin.register(Readnum)
-class ReadnumAdmin(admin.ModelAdmin):
-    list_display = ("id", "read_num", "article", )
-    ordering = ("id",)
 
 admin.site.register(Tag)
