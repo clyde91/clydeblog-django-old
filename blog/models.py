@@ -4,6 +4,7 @@ from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 
+
 class Category(models.Model):
     name = models.CharField(max_length=30)
     text = models.CharField(max_length=120, blank=True, null=True)
@@ -27,8 +28,12 @@ class Article(models.Model):
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="分类")
     tag = models.ManyToManyField(Tag,blank=True, verbose_name="标签")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者")
-    read_num = models.IntegerField(default=0,verbose_name="阅读次数")
 
+    def get_read_num(self):
+        try:
+            return self.readnum.read_num
+        except Exception as e:
+            return 0
 
     def __str__(self):
         return '<%s>' % self.title
@@ -36,3 +41,12 @@ class Article(models.Model):
     class Meta:
         verbose_name_plural = "文章"
         ordering = ['-created_time']
+
+
+class Readnum(models.Model):
+    read_num = models.IntegerField(default=0, verbose_name="阅读次数")
+    article = models.OneToOneField(Article, on_delete=models.DO_NOTHING)
+    # def __str__(self):
+    #     return '%s' % self.read_num
+
+

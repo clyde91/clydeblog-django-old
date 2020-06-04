@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from .models import Article, Category
+from .models import Article, Category, Readnum
 from django.core.paginator import Paginator
 from django.conf import settings
 # Create your views here.
@@ -8,8 +8,12 @@ from django.conf import settings
 def blog_article(request,id):
     article = get_object_or_404(Article, id=id)
     if not request.COOKIES.get("article_%s_read" % id):
-        article.read_num +=1
-        article.save()
+        if Readnum.objects.filter(article=article).count():    # 判断是否有数。没有为0假
+            readnum = Readnum.objects.get(article=article)
+        else:
+            readnum = Readnum(article=article)    # 这里是实体。
+        readnum.read_num += 1
+        readnum.save()    # 保存的是实体不是实体内的属性。
     context = {}
     context['article'] = article
     response = render(request,"article_detail.html", context)    # 响应
