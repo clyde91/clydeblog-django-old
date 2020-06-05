@@ -8,7 +8,6 @@ from django.contrib.contenttypes.fields import ContentType
 
 class Readnum(models.Model):
     read_num = models.IntegerField(default=0, verbose_name="阅读次数")
-
     content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', "object_id")    # 跨APP的类，获取实例
