@@ -442,7 +442,7 @@ class ReadnumMethod():
                             已登录
                         {% else %}
                             未登录
-                            <form action="{% url 'login' %}" method="post">
+                            <form action="{% url 'login' %}" method="POST">    # POST大写
                                 {% csrf_token %}
                                 <input type="text" name="username">
                                 <input type="password" name="password">
@@ -458,8 +458,8 @@ urls：
 views：
 
 def login(request):
-    username = request.Post['username']
-    password = request.Post['password']
+    username = request.POST['username']     # POST大写
+    password = request.POST['password']
     user = auth.authenticate(request, username=username,password=password)
     if user is not None:
         auth.login(request, user)
