@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'common_func',  # 注册通用功能app
+    'comment',    # 注册评论功能app
 ]
 
 MIDDLEWARE = [

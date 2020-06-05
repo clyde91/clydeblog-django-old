@@ -423,3 +423,52 @@ class ReadnumMethod():
         except Exception as e:
             return 0
 
+
+
+
+
+评论功能
+
+
+
+
+
+
+
+登录功能
+模板：
+                    <div>
+                        {% if user.is_authenticated%}
+                            已登录
+                        {% else %}
+                            未登录
+                            <form action="{% url 'login' %}" method="post">
+                                {% csrf_token %}
+                                <input type="text" name="username">
+                                <input type="password" name="password">
+                                <input type="submit" value="登录">
+                            </form>
+                        {% endif %}
+                    </div>
+
+
+urls：
+    path('login/', views.login, name='login'),
+
+views：
+
+def login(request):
+    username = request.Post['username']
+    password = request.Post['password']
+    user = auth.authenticate(request, username=username,password=password)
+    if user is not None:
+        auth.login(request, user)
+        return redirect('/')
+    else:
+        return render(request, 'error.html', {"message":'用户名或密码不正确'})
+
+
+
+
+csrf验证
+要加{% csrf_token %}

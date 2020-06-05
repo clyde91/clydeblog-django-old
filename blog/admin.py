@@ -8,8 +8,8 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display = ("id", "title", "created_time", "modified_time","get_read_num",)
     list_per_page = 20
     ordering = ("id",)
-    list_display_links = ("title",)
-    # fields = ("title","body")    #修改页面显示内容
+    list_display_links = ("title",)    # 链接的字段
+    # fields = ("title","body")    # 修改页面显示内容
 
 
 @admin.register(Category)

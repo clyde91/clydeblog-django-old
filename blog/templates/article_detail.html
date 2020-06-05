@@ -21,37 +21,18 @@
                 </div>
             </div>
             <div class="d-none d-md-block col-md-4">
-{% include 'righter.html' %}
+{% include 'righter_article.html' %}
             </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-8">
+                {% include 'comment.html' %}
+            </div>
+
         </div>
     </div>
 {% endblock %}
 
 
 {% block blog_active %}active{% endblock %}
-
-{#<!doctype html>#}
-{#<html lang="en">#}
-{#<head>#}
-{#    <meta charset="UTF-8">#}
-{#    <meta name="viewport"#}
-{#          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">#}
-{#    <meta http-equiv="X-UA-Compatible" content="ie=edge">#}
-{#    <title>{{article.title}}-{{ article.category.name }}</title>#}
-{#</head>#}
-{#<body>#}
-{#<a href="{% url "blog_list" %}"><h1>clyde blog</h1></a>#}
-{##}
-{#<h3>博客主题：{{article.title}}</h3>#}
-{#<br>#}
-{#<h3>分类：<a href="{% url "blog_category" article.category.id %}">{{article.category.name}}</a></h3>#}
-{#<br>#}
-{#<h3>博客作者：{{article.author}}</h3>#}
-{#<br>#}
-{#{{article.body}}#}
-{#<br>#}
-{#{{article.created_time|date:"Y-m-d H:i:s"}}#}
-{##}
-{#</body>#}
-{#</html>#}
 

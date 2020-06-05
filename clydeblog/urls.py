@@ -24,8 +24,10 @@ urlpatterns = [
     path('blog/', include('blog.urls')),
     path('architecture/', include('architecture.urls')),
     path('', views.index, name='home'),
+    path('about/', views.about, name='about'),
     path('test', views.test, name='test'),
     path('ckeditor', include('ckeditor_uploader.urls')),    # 添加上传功能
+    path('login/', views.login, name='login'),
 ]
 
 
