@@ -22,7 +22,7 @@ def login(request):
     username = request.POST['username']     # POST大写
     password = request.POST['password']
     user = auth.authenticate(request, username=username,password=password)
-    referer = request.META.get('HTTP_REFERER', referer('home'))    # 获得跳转前的网站。如果没有则后者  referer反向解析home在的地址
+    referer = request.META.get('HTTP_REFERER', reverse('home'))    # 获得跳转前的网站。如果没有则后者  referer“反向解析”home在的地址
     if user is not None:
         auth.login(request, user)
         return redirect(referer)

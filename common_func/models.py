@@ -19,7 +19,7 @@ class Readnum(models.Model):
 
 class ReadnumMethod():
     def get_read_num(self):
-        ct = ContentType.objects.get_for_model(self)    # 获得ct
+        ct = ContentType.objects.get_for_model(self)    # 通过实例获得ct
         try:
             readnum = Readnum.objects.get(content_type=ct, object_id=self.id)  # 获得该文章的阅读数。通过关联模型，id
             return readnum.read_num

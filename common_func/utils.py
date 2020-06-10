@@ -19,7 +19,7 @@ def read_click(request, obj):
 
 
 # 分页器
-def paginate(request,articles_all,context):
+def paginate(request,articles_all,context):    # 传入的：articles_all需要分页的文章，context字典
     paginator = Paginator(articles_all,settings.NUM_ARTICLE_PER_PAGE)  # 每8页分页
     page_num = request.GET.get('page',1)  # get获取页码
     page = paginator.get_page(page_num)  # 当前页
