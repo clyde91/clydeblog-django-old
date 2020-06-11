@@ -10,13 +10,16 @@ def index(request):
     context['apps'] = apps
     return render(request, "index.html", context)
 
+
 def about(request):
     context = {}
     return render(request, "about.html", context)
 
+
 def test(request):
     context = {}
     return render(request, "test.html", context)
+
 
 def login(request):
     username = request.POST['username']     # POST大写

@@ -8,7 +8,7 @@ from comment.models import Comment
 # Create your views here.
 
 
-def blog_article(request,id):
+def blog_article(request, id):
     article = get_object_or_404(Article, id=id)
     key=read_click(request, obj=article)
     context = {}
@@ -22,6 +22,7 @@ def blog_article(request,id):
     response.set_cookie(key, max_age=1200,)    # 给字典赋值真
     return response
 
+
 def blog_list(request):
     context = {}
     articles_all = Article.objects.all()
@@ -32,7 +33,7 @@ def blog_list(request):
     return render(request, "article_list.html", context)
 
 
-def blog_category(request,id):
+def blog_category(request, id):
     context = {}
     category = get_object_or_404(Category,id=id)    #通过id=id获取分类的实例
     articles_category = Article.objects.filter(category=id)    #用分类筛选后的文章

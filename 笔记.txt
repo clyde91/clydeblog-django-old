@@ -571,3 +571,11 @@ urls：
 urlpatterns = [
     path('submit_comment', views.submit_comment, name="submit_comment"),
 ]
+
+
+
+
+
+
+
+django表单
