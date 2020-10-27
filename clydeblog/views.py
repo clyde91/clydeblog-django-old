@@ -43,9 +43,9 @@ def login(request):
             return redirect(request.GET.get("from", reverse('home')))
 
     else:
-        login_form = LoginForm()  #request方法不是POST
+        login_form = LoginForm()  # request方法不是POST
 
-    context = {}  #if分支的共有部分，都会执行以下代码。
+    context = {}  # if分支的共有部分，都会执行以下代码。
     context['login_form'] = login_form
     return render(request, 'login.html', context)
 
@@ -53,7 +53,14 @@ def register(request):
     if request.method == 'POST':
         reg_form = RegForm(request.POST)
         if reg_form.is_valid():
-            username = request
+            username = reg_form.cleaned_data['username']
+            email = reg_form.cleaned_data['email']
+            password = reg_form.cleaned_data['password']
+            # 创建用户
+            user = User.objects.create_user(username=username,email=email,password=password)
+            user.save()
+            # 登录用户
+            user = auth.authenticate(request, username=username,password=password)
             auth.login(request, user)
             return redirect(request.GET.get("from", reverse('home')))
 

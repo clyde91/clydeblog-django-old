@@ -30,8 +30,9 @@ class Article(models.Model, ReadnumMethod):
     created_time = models.DateTimeField(auto_now_add=True, verbose_name="创建日期")
     modified_time = models.DateTimeField(auto_now=True, verbose_name="修改日期")
     category = models.ForeignKey(Category,on_delete=models.CASCADE, verbose_name="分类")
-    tag = models.ManyToManyField(Tag,blank=True, verbose_name="标签")
+    tag = models.ManyToManyField(Tag, blank=True, verbose_name="标签")
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="作者")
+
 
     def __str__(self):
         return '<%s>' % self.title

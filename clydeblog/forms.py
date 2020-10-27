@@ -29,7 +29,7 @@ class RegForm(forms.Form):
         username = self.cleaned_data["username"]
         if User.objects.filter(username=username):
             raise forms.ValidationError("用户名存在")
-        return username  #不知道return意义？
+        return username  # return就是把这错误信息return的地方
 
     def clean_email(self):
         email = self.cleaned_data["email"]

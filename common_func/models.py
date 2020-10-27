@@ -26,3 +26,10 @@ class ReadnumMethod():
         except Exception as e:
             return 0
 
+
+class WebSEO(models.Model):
+    content_type = models.ForeignKey(ContentType, on_delete=models.DO_NOTHING)    #评论所属的ct
+    object_id = models.PositiveIntegerField()    # 在app里的id
+    content_object = GenericForeignKey('content_type', "object_id")    # 评论的实例
+    keywords= models.CharField(max_length=70, blank=True, verbose_name="关键字")
+    brief = models.TextField(max_length=70,blank=True, verbose_name="简介")
