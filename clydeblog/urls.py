@@ -28,6 +28,7 @@ urlpatterns = [
     path('test', views.test, name='test'),
     path('ckeditor', include('ckeditor_uploader.urls')),    # 添加上传功能
     path('login/', views.login, name='login'),
+    path('register/', views.register, name='register'),
     path('comment/', include('comment.urls')),
 ]
 
