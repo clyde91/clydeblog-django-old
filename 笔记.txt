@@ -14,8 +14,8 @@ python manage.py startapp XXX
 注册应用（创建后需要注册才能使用）
 在根目录settings.py里面的INSTALLED_APPS添加应用名
  
- 生成环境需求文件
- pip freeze > requirements.txt
+生成环境需求文件
+pip freeze > requirements.txt
  
 
 
@@ -579,3 +579,18 @@ urlpatterns = [
 
 
 django表单
+
+新建forms.py
+
+from django import forms
+
+class LoginForm(forms.Form):
+#定义表单
+    username = forms.CharField(label="用户名")
+    password = forms.CharField(label="密码", widget=forms.PasswordInput)
+#定义字段
+
+在views里面传入表单LoginForm
+
+
+?from={{ request.get_full_path }} 在链接后面加入个get。此标签是引用当前网址。
